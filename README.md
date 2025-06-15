@@ -65,4 +65,4 @@ flutter run
 
 Developed by **Ayman Mohammed**
 
-GitHub: [@your-username](https://github.com/your-username)
+GitHub: https://github.com/AymanMo5r218/capitol
