@@ -1,0 +1,92 @@
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Local Storage Demo',
+      home: UserFormPage(),
+    );
+  }
+}
+
+class UserFormPage extends StatefulWidget {
+  @override
+  _UserFormPageState createState() => _UserFormPageState();
+}
+
+class _UserFormPageState extends State<UserFormPage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  String _savedName = '';
+  String _savedEmail = '';
+
+  Future<void> _saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('username', _nameController.text);
+    await prefs.setString('email', _emailController.text);
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _savedName = prefs.getString('username') ?? 'No name saved';
+      _savedEmail = prefs.getString('email') ?? 'No email saved';
+    });
+  }
+
+  Future<void> _clearData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('username');
+    await prefs.remove('email');
+    _loadData();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Local Storage Example')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: _nameController,
+              decoration: InputDecoration(labelText: 'Enter name'),
+            ),
+            TextField(
+              controller: _emailController,
+              decoration: InputDecoration(labelText: 'Enter email'),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _saveData,
+              child: Text('Save Data'),
+            ),
+            ElevatedButton(
+              onPressed: _clearData,
+              child: Text('Clear Data'),
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            ),
+            SizedBox(height: 30),
+            Text('Saved Name: $_savedName'),
+            Text('Saved Email: $_savedEmail'),
+          ],
+        ),
+      ),
+    );
+  }
+}
