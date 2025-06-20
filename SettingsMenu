@@ -1,0 +1,60 @@
+import 'package:flutter/material.dart';
+
+class SettingsMenu extends StatelessWidget {
+  final void Function()? onAccountTap;
+  final void Function()? onNotificationsTap;
+  final void Function()? onThemeTap;
+  final void Function()? onLogoutTap;
+
+  const SettingsMenu({
+    super.key,
+    this.onAccountTap,
+    this.onNotificationsTap,
+    this.onThemeTap,
+    this.onLogoutTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+            ),
+            child: Text(
+              'Settings Menu',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+              ),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.person),
+            title: Text('Account'),
+            onTap: onAccountTap,
+          ),
+          ListTile(
+            leading: Icon(Icons.notifications),
+            title: Text('Notifications'),
+            onTap: onNotificationsTap,
+          ),
+          ListTile(
+            leading: Icon(Icons.color_lens),
+            title: Text('Theme'),
+            onTap: onThemeTap,
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Logout'),
+            onTap: onLogoutTap,
+          ),
+        ],
+      ),
+    );
+  }
+}
