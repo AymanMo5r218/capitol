@@ -1,0 +1,36 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
+class StorageService {
+  static const String _keyUsername = 'username';
+  static const String _keyEmail = 'email';
+
+  // حفظ اسم المستخدم
+  Future<void> saveUsername(String username) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyUsername, username);
+  }
+
+  // جلب اسم المستخدم
+  Future<String?> getUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_keyUsername);
+  }
+
+  // حفظ البريد الإلكتروني
+  Future<void> saveEmail(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_keyEmail, email);
+  }
+
+  // جلب البريد الإلكتروني
+  Future<String?> getEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_keyEmail);
+  }
+
+  // حذف جميع البيانات
+  Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+}
